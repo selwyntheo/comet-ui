@@ -36,13 +36,13 @@ An intelligent React-based documentation search agent designed specifically for 
 - **State Management**: TanStack Query (React Query)
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
-- **LLM Integration**: OpenAI API (configurable)
+- **LLM Integration**: Llama API (configurable)
 
 ## 📋 Prerequisites
 
 - Node.js 18+ and npm
 - Access to a GraphQL endpoint with manufacturing documentation
-- OpenAI API key or alternative LLM endpoint (optional but recommended)
+- Llama API endpoint (local Ollama recommended) or alternative LLM service
 
 ## 🚀 Quick Start
 
@@ -61,7 +61,20 @@ An intelligent React-based documentation search agent designed specifically for 
    Edit `.env` with your configuration:
    ```env
    VITE_GRAPHQL_ENDPOINT=http://localhost:4000/graphql
-   VITE_OPENAI_API_KEY=your_api_key_here
+   VITE_LLAMA_API_URL=http://localhost:11434/v1
+   VITE_LLAMA_MODEL=llama3.1:8b
+   ```
+
+   For detailed Llama setup instructions, see our [Llama Setup Guide](./docs/LLAMA_SETUP.md).
+
+   **Quick Ollama setup:**
+   ```bash
+   # Install Ollama
+   curl -fsSL https://ollama.ai/install.sh | sh
+   
+   # Start service and download model
+   ollama serve
+   ollama pull llama3.1:8b
    ```
 
 3. **Start Development Server**
@@ -84,21 +97,28 @@ The application expects a GraphQL endpoint that implements the schema defined in
 - `systems` and `departments` queries for filter options
 - Document structure with metadata for manufacturing context
 
-### LLM Integration
+### Llama Integration
 
-The application supports multiple LLM providers:
+The application supports multiple Llama deployment options:
 
-**OpenAI (Default)**
+**Ollama (Recommended - Local Deployment)**
 ```env
-VITE_LLM_API_URL=https://api.openai.com/v1
-VITE_LLM_MODEL=gpt-4-turbo-preview
-VITE_OPENAI_API_KEY=your_key
+VITE_LLAMA_API_URL=http://localhost:11434/v1
+VITE_LLAMA_MODEL=llama3.1:8b
+# No API key required for local Ollama
 ```
 
-**Custom LLM Endpoint**
+**LLaMA.cpp Server**
 ```env
-VITE_LLM_API_URL=http://localhost:8000/v1
-VITE_LLM_MODEL=custom-model
+VITE_LLAMA_API_URL=http://localhost:8080/v1
+VITE_LLAMA_MODEL=llama-2-7b-chat
+```
+
+**Hosted Llama Services (Together AI, Anyscale, etc.)**
+```env
+VITE_LLAMA_API_URL=https://api.together.xyz/v1
+VITE_LLAMA_MODEL=meta-llama/Llama-2-7b-chat-hf
+VITE_LLAMA_API_KEY=your_api_key
 ```
 
 ## 📊 Features Deep Dive

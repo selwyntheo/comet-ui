@@ -122,6 +122,78 @@ export const mockDocuments: DocumentationItem[] = [
     bundleName: 'production-welding-bundle-v4.1',
     packageName: 'com.automotive.production.bodyshop',
     fullCommand: 'weld-control --technique=spot --strength-test=required --quality-check=automated --config=welding-standards-config.json'
+  },
+  {
+    id: '6',
+    title: 'Battery Management System Configuration',
+    content: 'Electric vehicle battery management system (BMS) configuration and monitoring procedures. Includes cell balancing algorithms, thermal management protocols, charging optimization, and safety disconnect procedures. Critical for EV production line quality control.',
+    category: 'Electrical',
+    system: 'Battery Plant',
+    lastUpdated: '2024-01-20T08:45:00Z',
+    relevanceScore: 0.92,
+    tags: ['battery', 'BMS', 'electric', 'thermal', 'charging'],
+    metadata: {
+      department: 'Electrical Engineering',
+      vehicleModel: 'EV Model A',
+      component: 'Battery Pack',
+      severity: 'critical'
+    },
+    fullyQualifiedName: 'com.automotive.electrical.battery.ManagementSystem',
+    enumValues: ['CELL_BALANCING', 'THERMAL_MONITORING', 'CHARGE_CONTROL', 'SAFETY_DISCONNECT', 'SOC_ESTIMATION'],
+    defaultJsonFile: 'bms-configuration.json',
+    publisher: 'BatteryControlUnit',
+    subscriber: 'VehicleControlModule',
+    bundleName: 'battery-management-bundle-v3.0',
+    packageName: 'com.automotive.electrical.battery',
+    fullCommand: 'bms-config --mode=production --thermal-limit=45C --balance-threshold=50mV --safety-check=enabled --config=bms-configuration.json'
+  },
+  {
+    id: '7',
+    title: 'Autonomous Driving Sensor Calibration Protocol',
+    content: 'Calibration procedures for autonomous driving sensors including LiDAR, cameras, radar, and ultrasonic sensors. Covers factory calibration requirements, field calibration procedures, and validation testing protocols for ADAS and autonomous driving features.',
+    category: 'Electronics',
+    system: 'ADAS Plant',
+    lastUpdated: '2024-01-18T13:30:00Z',
+    relevanceScore: 0.89,
+    tags: ['ADAS', 'sensors', 'calibration', 'autonomous', 'LiDAR'],
+    metadata: {
+      department: 'Electronics Engineering',
+      vehicleModel: 'Autonomous Model S',
+      component: 'Sensor Array',
+      severity: 'high'
+    },
+    fullyQualifiedName: 'com.automotive.electronics.sensors.CalibrationProtocol',
+    enumValues: ['LIDAR_CALIBRATION', 'CAMERA_ALIGNMENT', 'RADAR_TUNING', 'ULTRASONIC_TEST', 'FUSION_VALIDATION'],
+    defaultJsonFile: 'sensor-calibration-config.json',
+    publisher: 'SensorCalibrationSystem',
+    subscriber: 'ADASValidationModule',
+    bundleName: 'sensor-calibration-bundle-v2.8',
+    packageName: 'com.automotive.electronics.sensors',
+    fullCommand: 'sensor-cal --type=lidar,camera,radar --precision=high --validation=required --output=/calibration/results --config=sensor-calibration-config.json'
+  },
+  {
+    id: '8',
+    title: 'Supply Chain Inventory Management API',
+    content: 'RESTful API documentation for supply chain inventory management system. Includes endpoints for parts tracking, supplier management, just-in-time delivery coordination, and quality certification verification. Critical for maintaining production line efficiency.',
+    category: 'Supply Chain',
+    system: 'Inventory Management',
+    lastUpdated: '2024-01-22T10:15:00Z',
+    relevanceScore: 0.85,
+    tags: ['API', 'inventory', 'supply-chain', 'JIT', 'tracking'],
+    metadata: {
+      department: 'Supply Chain',
+      vehicleModel: 'All Models',
+      component: 'Parts Inventory',
+      severity: 'medium'
+    },
+    fullyQualifiedName: 'com.automotive.supplychain.inventory.ManagementAPI',
+    enumValues: ['PARTS_TRACKING', 'SUPPLIER_MGMT', 'JIT_DELIVERY', 'QUALITY_CERT', 'STOCK_LEVELS'],
+    defaultJsonFile: 'inventory-api-config.json',
+    publisher: 'InventoryManagementSystem',
+    subscriber: 'ProductionPlanningModule',
+    bundleName: 'supply-chain-api-bundle-v1.9',
+    packageName: 'com.automotive.supplychain.inventory',
+    fullCommand: 'inventory-api --endpoint=parts-tracking --auth=oauth2 --rate-limit=1000 --monitoring=enabled --config=inventory-api-config.json'
   }
 ];
 
@@ -163,22 +235,77 @@ export const mockSearchSuggestions = [
 
 // Mock LLM analysis for demonstration
 export const mockLLMAnalysis = {
-  summary: 'The search results contain critical safety and quality documentation across multiple manufacturing systems. Key focus areas include brake system safety compliance, engine assembly quality standards, and environmental controls for paint operations. All documents emphasize adherence to international automotive standards (ISO 26262, TS 16949) and demonstrate the company\'s commitment to manufacturing excellence and worker safety.',
+  summary: 'Analysis of 8 automotive manufacturing system documents reveals a comprehensive digital ecosystem with well-structured API interfaces, standardized configuration management, and robust command-line tooling. The system architecture follows enterprise Java naming conventions with clear separation between safety-critical, quality control, and production systems. All modules demonstrate proper publisher-subscriber patterns for inter-system communication.',
   keyFindings: [
-    'Critical safety procedures are well-documented across all major systems with ISO 26262 compliance',
-    'Quality control standards meet TS 16949 requirements with statistical process control implementation',
-    'Environmental safety protocols include comprehensive VOC monitoring and ventilation controls',
-    'Maintenance procedures provide detailed diagnostic and troubleshooting guidance',
-    'Production standards ensure consistent quality across all vehicle models'
+    'System Architecture: All fully qualified names follow com.automotive.* namespace pattern indicating enterprise-grade system design',
+    'Configuration Management: Standardized JSON configuration files are used across all systems with consistent naming conventions',
+    'Inter-System Communication: Clear publisher-subscriber relationships established between control systems and monitoring modules',
+    'Command-Line Tooling: Comprehensive CLI tools available for all major operations with standardized parameter patterns',
+    'Bundle Versioning: Proper semantic versioning implemented across all system bundles (v1.8 to v4.1)',
+    'Safety Compliance: Critical safety systems (brake, battery, ADAS) have dedicated monitoring and validation subscribers',
+    'Quality Integration: Quality control systems are properly integrated with production line management systems',
+    'Environmental Monitoring: Advanced VOC and thermal monitoring with automated safety disconnect capabilities'
   ],
   recommendations: [
-    'Review and update brake safety inspection procedures quarterly to maintain critical safety standards',
-    'Implement cross-training programs for quality control personnel across different systems',
-    'Consider automation opportunities in paint booth environmental monitoring systems',
-    'Establish regular maintenance schedule reviews to prevent transmission system failures',
-    'Develop standardized welding quality metrics across all body shop operations'
+    'System Integration: Consider implementing a centralized system registry to manage the 8+ publisher-subscriber relationships',
+    'Configuration Standardization: Develop a unified configuration schema template for all *.json config files',
+    'Command Orchestration: Create a master command orchestration tool to coordinate multi-system operations',
+    'Bundle Management: Implement automated bundle deployment pipeline to manage version dependencies',
+    'API Documentation: Generate OpenAPI specifications for all system interfaces to improve integration efficiency',
+    'Monitoring Enhancement: Deploy centralized logging aggregation for all command outputs and system interactions',
+    'Security Hardening: Implement OAuth2 authentication patterns across all API endpoints (currently only in inventory system)',
+    'Performance Optimization: Consider implementing connection pooling for high-frequency publisher-subscriber communications'
   ],
-  relevantDocuments: ['1', '2', '3'],
-  confidence: 0.87,
-  analysisTimestamp: '2024-01-20T15:30:00Z'
+  systemIntegrationAnalysis: {
+    totalSystems: 8,
+    publisherSubscriberPairs: [
+      { publisher: 'SafetyControlSystem', subscriber: 'QualityAssuranceModule', category: 'Safety-Quality Integration' },
+      { publisher: 'QualityControlCenter', subscriber: 'ProductionLineManager', category: 'Quality-Production Integration' },
+      { publisher: 'EnvironmentalController', subscriber: 'SafetyMonitoringSystem', category: 'Environment-Safety Integration' },
+      { publisher: 'MaintenanceSystem', subscriber: 'DiagnosticToolkit', category: 'Maintenance-Diagnostics Integration' },
+      { publisher: 'ProductionController', subscriber: 'QualityInspectionSystem', category: 'Production-Quality Integration' },
+      { publisher: 'BatteryControlUnit', subscriber: 'VehicleControlModule', category: 'Battery-Vehicle Integration' },
+      { publisher: 'SensorCalibrationSystem', subscriber: 'ADASValidationModule', category: 'Sensor-ADAS Integration' },
+      { publisher: 'InventoryManagementSystem', subscriber: 'ProductionPlanningModule', category: 'Supply Chain-Production Integration' }
+    ],
+    configurationFiles: [
+      'brake-inspection-config.json',
+      'engine-quality-standards.json', 
+      'paint-booth-env-config.json',
+      'transmission-diagnostics.json',
+      'welding-standards-config.json',
+      'bms-configuration.json',
+      'sensor-calibration-config.json',
+      'inventory-api-config.json'
+    ],
+    commandPatterns: {
+      safetyCommands: ['safety-inspect', 'env-control'],
+      qualityCommands: ['quality-check', 'weld-control'],
+      maintenanceCommands: ['diagnose'],
+      productionCommands: ['bms-config', 'sensor-cal', 'inventory-api'],
+      commonParameters: ['--config', '--output', '--monitoring', '--validation']
+    }
+  },
+  technicalRecommendations: [
+    'Implement a unified command wrapper: automotive-ctl --system=[brake|engine|paint|...] --operation=[inspect|diagnose|calibrate]',
+    'Create configuration validation schemas for all JSON files to prevent runtime errors',
+    'Develop a system health dashboard aggregating status from all publisher-subscriber pairs',
+    'Establish automated testing pipelines for each bundle deployment',
+    'Implement distributed tracing for cross-system command execution flows'
+  ],
+  relevantDocuments: ['1', '2', '3', '4', '5', '6', '7', '8'],
+  confidence: 0.94,
+  analysisTimestamp: '2024-01-31T15:30:00Z',
+  structuredResponse: {
+    totalSystemsAnalyzed: 8,
+    averageRelevanceScore: 0.85,
+    criticalSafetySystems: 3,
+    qualityControlSystems: 2,
+    productionSystems: 2,
+    supportSystems: 1,
+    uniquePublishers: 8,
+    uniqueSubscribers: 8,
+    configurationComplexity: 'Medium-High',
+    integrationMaturity: 'Enterprise-Ready'
+  }
 };

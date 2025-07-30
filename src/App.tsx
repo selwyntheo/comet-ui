@@ -43,7 +43,7 @@ function AppContent() {
 
   // Check if GraphQL endpoint is available
   const hasGraphQLEndpoint = !!import.meta.env.VITE_GRAPHQL_ENDPOINT;
-  const hasLLMKey = !!import.meta.env.VITE_OPENAI_API_KEY;
+  const hasLLMKey = !!import.meta.env.VITE_LLAMA_API_KEY || !!import.meta.env.VITE_LLAMA_API_URL;
 
   // Show demo mode if no GraphQL endpoint or if explicitly requested
   if (isDemoMode || !hasGraphQLEndpoint) {
@@ -70,7 +70,7 @@ function AppContent() {
                   <span className="font-medium text-yellow-800">Configuration Required: </span>
                   <span className="text-yellow-700">
                     {!hasGraphQLEndpoint && 'GraphQL endpoint not configured. '}
-                    {!hasLLMKey && 'LLM API key not configured. '}
+                    {!hasLLMKey && 'Llama API endpoint not configured. '}
                     Set up your .env file for full functionality.
                   </span>
                 </div>

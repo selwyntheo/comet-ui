@@ -6,7 +6,7 @@ interface LLMRequest {
   maxTokens?: number;
 }
 
-interface LLMResponse {
+interface LlamaResponse {
   choices: Array<{
     message: {
       content: string;
@@ -25,45 +25,63 @@ class LLMService {
   private model: string;
 
   constructor() {
-    this.apiKey = import.meta.env.VITE_OPENAI_API_KEY || '';
-    this.baseUrl = import.meta.env.VITE_LLM_API_URL || 'https://api.openai.com/v1';
-    this.model = import.meta.env.VITE_LLM_MODEL || 'gpt-4-turbo-preview';
+    // Support for Llama API (Ollama, LLaMA.cpp server, or other Llama endpoints)
+    this.apiKey = import.meta.env.VITE_LLAMA_API_KEY || '';
+    this.baseUrl = import.meta.env.VITE_LLAMA_API_URL || 'http://localhost:11434/v1';
+    this.model = import.meta.env.VITE_LLAMA_MODEL || 'llama3.1:8b';
   }
 
-  private async makeRequest(request: LLMRequest): Promise<LLMResponse> {
-    if (!this.apiKey) {
-      throw new Error('LLM API key is not configured');
+  private async makeRequest(request: LLMRequest): Promise<LlamaResponse> {
+    // For Ollama and most Llama deployments, API key might not be required
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    // Add authorization header only if API key is provided
+    if (this.apiKey) {
+      headers['Authorization'] = `Bearer ${this.apiKey}`;
     }
 
-    const response = await fetch(`${this.baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: this.model,
-        messages: [
-          {
-            role: 'system',
-            content: `You are an expert analyst for a car manufacturing company. You analyze technical documentation and provide detailed, actionable insights. Focus on safety, quality, production efficiency, and compliance with automotive standards.`
-          },
-          {
-            role: 'user',
-            content: request.prompt
-          }
-        ],
-        temperature: request.temperature || 0.3,
-        max_tokens: request.maxTokens || 2000,
-      }),
-    });
+    try {
+      const response = await fetch(`${this.baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          model: this.model,
+          messages: [
+            {
+              role: 'system',
+              content: `You are an expert analyst for a car manufacturing company. You analyze technical documentation and provide detailed, actionable insights. Focus on safety, quality, production efficiency, and compliance with automotive standards. 
 
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`LLM API error: ${response.status} - ${error}`);
+Your responses should be:
+1. Accurate and based on automotive industry best practices
+2. Actionable with specific recommendations
+3. Focused on manufacturing operations and quality control
+4. Compliant with ISO standards and safety regulations
+
+Always provide structured analysis with clear key findings and practical recommendations.`
+            },
+            {
+              role: 'user',
+              content: request.prompt
+            }
+          ],
+          temperature: request.temperature || 0.3,
+          max_tokens: request.maxTokens || 2000,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        throw new Error(`Llama API error: ${response.status} - ${error}`);
+      }
+
+      return response.json();
+    } catch (error) {
+      // Fallback error handling for connection issues
+      console.error('Llama API request failed:', error);
+      throw new Error(`Failed to connect to Llama API: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
-
-    return response.json();
   }
 
   async analyzeSearchResults(
