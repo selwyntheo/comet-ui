@@ -1,0 +1,187 @@
+# Sample GraphQL Schema for Car Manufacturing Documentation System
+
+type Query {
+  # Search documentation across all systems
+  searchDocumentation(
+    query: String!
+    filters: SearchFiltersInput
+    limit: Int = 20
+    offset: Int = 0
+  ): SearchResult!
+  
+  # Get a specific document by ID
+  document(id: ID!): DocumentationItem
+  
+  # Get all available systems
+  systems: [CarManufacturingSystem!]!
+  
+  # Get all departments
+  departments: [Department!]!
+  
+  # Get search suggestions based on input
+  searchSuggestions(input: String!): SearchSuggestions!
+}
+
+type Mutation {
+  # Log search activity for analytics
+  logSearchActivity(
+    query: String!
+    resultCount: Int!
+    clickedDocuments: [ID!]
+  ): SearchActivityResult!
+}
+
+# Main documentation item type
+type DocumentationItem {
+  id: ID!
+  title: String!
+  content: String!
+  category: String!
+  system: String!
+  lastUpdated: String!
+  relevanceScore: Float
+  url: String
+  tags: [String!]!
+  metadata: DocumentMetadata
+}
+
+# Metadata for additional document information
+type DocumentMetadata {
+  department: String
+  vehicleModel: String
+  component: String
+  severity: Severity
+}
+
+# Search result container
+type SearchResult {
+  items: [DocumentationItem!]!
+  totalCount: Int!
+  facets: SearchFacets!
+}
+
+# Search facets for filtering
+type SearchFacets {
+  categories: [FacetItem!]!
+  systems: [FacetItem!]!
+  departments: [FacetItem!]!
+}
+
+type FacetItem {
+  name: String!
+  count: Int!
+}
+
+# Car manufacturing system information
+type CarManufacturingSystem {
+  id: ID!
+  name: String!
+  description: String!
+  category: SystemCategory!
+  isActive: Boolean!
+}
+
+# Department information
+type Department {
+  id: ID!
+  name: String!
+  description: String!
+  contactInfo: String
+}
+
+# Search suggestions
+type SearchSuggestions {
+  suggestions: [String!]!
+  popularQueries: [String!]!
+}
+
+# Search activity logging result
+type SearchActivityResult {
+  success: Boolean!
+  sessionId: String
+}
+
+# Input types
+input SearchFiltersInput {
+  category: [String!]
+  system: [String!]
+  department: [String!]
+  vehicleModel: [String!]
+  dateRange: DateRangeInput
+}
+
+input DateRangeInput {
+  start: String!
+  end: String!
+}
+
+# Enums
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum SystemCategory {
+  PRODUCTION
+  QUALITY
+  SAFETY
+  DESIGN
+  LOGISTICS
+  MAINTENANCE
+}
+
+# Sample queries:
+
+# 1. Basic search
+# query SearchDocs {
+#   searchDocumentation(query: "brake system safety") {
+#     items {
+#       id
+#       title
+#       content
+#       system
+#       category
+#       relevanceScore
+#     }
+#     totalCount
+#   }
+# }
+
+# 2. Filtered search
+# query FilteredSearch {
+#   searchDocumentation(
+#     query: "assembly procedures"
+#     filters: {
+#       category: ["Production"]
+#       system: ["Assembly Line"]
+#       department: ["Manufacturing"]
+#     }
+#   ) {
+#     items {
+#       id
+#       title
+#       metadata {
+#         department
+#         severity
+#       }
+#     }
+#     facets {
+#       categories {
+#         name
+#         count
+#       }
+#     }
+#   }
+# }
+
+# 3. Get systems
+# query GetSystems {
+#   systems {
+#     id
+#     name
+#     category
+#     isActive
+#   }
+# }
