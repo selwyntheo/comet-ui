@@ -16,6 +16,15 @@ export interface DocumentationItem {
     component?: string;
     severity?: 'low' | 'medium' | 'high' | 'critical';
   };
+  // Enhanced fields for manufacturing system integration
+  fullyQualifiedName?: string;
+  enumValues?: string[];
+  defaultJsonFile?: string;
+  publisher?: string;
+  subscriber?: string;
+  bundleName?: string;
+  packageName?: string;
+  fullCommand?: string;
 }
 
 export interface SearchQuery {

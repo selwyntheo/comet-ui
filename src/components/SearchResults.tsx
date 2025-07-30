@@ -1,4 +1,6 @@
-import { Clock, ExternalLink, Tag, AlertCircle, CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
+import { Clock, ExternalLink, Tag, AlertCircle, CheckCircle, AlertTriangle, XCircle, Table, Grid } from 'lucide-react';
+import { useState } from 'react';
+import { ResponseTable } from './ResponseTable';
 import type { DocumentationItem, LLMAnalysis } from '../types';
 
 interface SearchResultsProps {
@@ -16,6 +18,8 @@ export function SearchResults({
   totalCount, 
   onDocumentClick 
 }: SearchResultsProps) {
+  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
+
   if (results.length === 0) {
     return (
       <div className="text-center py-12">
@@ -29,34 +33,70 @@ export function SearchResults({
 
   return (
     <div className="space-y-6">
-      {/* Results Summary */}
-      <div className="flex justify-between items-center">
+      {/* View Toggle */}
+      <div className="flex items-center justify-between">
         <div className="text-sm text-gray-600">
           Showing {results.length} of {totalCount} results
         </div>
-        {isAnalyzing && (
-          <div className="flex items-center space-x-2 text-primary-600">
-            <div className="animate-spin h-4 w-4 border-2 border-primary-600 border-t-transparent rounded-full" />
-            <span className="text-sm">Analyzing results...</span>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-600">View as:</span>
+          <div className="flex bg-gray-100 rounded-lg p-1">
+            <button
+              onClick={() => setViewMode('cards')}
+              className={`flex items-center space-x-2 px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                viewMode === 'cards'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <Grid className="h-4 w-4" />
+              <span>Cards</span>
+            </button>
+            <button
+              onClick={() => setViewMode('table')}
+              className={`flex items-center space-x-2 px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                viewMode === 'table'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <Table className="h-4 w-4" />
+              <span>Table</span>
+            </button>
           </div>
-        )}
+        </div>
       </div>
+
+      {/* Loading indicator */}
+      {isAnalyzing && (
+        <div className="flex items-center space-x-2 text-primary-600 bg-primary-50 p-3 rounded-lg">
+          <div className="animate-spin h-4 w-4 border-2 border-primary-600 border-t-transparent rounded-full" />
+          <span className="text-sm font-medium">Analyzing results...</span>
+        </div>
+      )}
 
       {/* LLM Analysis */}
       {analysis && (
         <AnalysisPanel analysis={analysis} />
       )}
 
-      {/* Search Results */}
-      <div className="space-y-4">
-        {results.map((document) => (
-          <DocumentCard
-            key={document.id}
-            document={document}
-            onClick={() => onDocumentClick(document)}
-          />
-        ))}
-      </div>
+      {/* Results Display */}
+      {viewMode === 'table' ? (
+        <ResponseTable 
+          results={results} 
+          onRowClick={onDocumentClick}
+        />
+      ) : (
+        <div className="space-y-4">
+          {results.map((document) => (
+            <DocumentCard
+              key={document.id}
+              document={document}
+              onClick={() => onDocumentClick(document)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

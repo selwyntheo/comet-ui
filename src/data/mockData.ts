@@ -17,7 +17,15 @@ export const mockDocuments: DocumentationItem[] = [
       vehicleModel: 'Model X',
       component: 'Brake Assembly',
       severity: 'critical'
-    }
+    },
+    fullyQualifiedName: 'com.automotive.safety.brake.InspectionProcedure',
+    enumValues: ['DISC_BRAKE', 'DRUM_BRAKE', 'ABS_SYSTEM', 'BRAKE_FLUID', 'BRAKE_PADS'],
+    defaultJsonFile: 'brake-inspection-config.json',
+    publisher: 'SafetyControlSystem',
+    subscriber: 'QualityAssuranceModule',
+    bundleName: 'safety-inspection-bundle-v2.1',
+    packageName: 'com.automotive.safety.brake',
+    fullCommand: 'safety-inspect --system=brake --level=critical --output=/var/log/brake-inspection.log --config=brake-inspection-config.json'
   },
   {
     id: '2',
@@ -33,7 +41,15 @@ export const mockDocuments: DocumentationItem[] = [
       vehicleModel: 'Model Y',
       component: 'Engine Block',
       severity: 'high'
-    }
+    },
+    fullyQualifiedName: 'com.automotive.quality.engine.AssemblyStandards',
+    enumValues: ['TORQUE_CHECK', 'VISUAL_INSPECTION', 'LEAK_TEST', 'PERFORMANCE_TEST'],
+    defaultJsonFile: 'engine-quality-standards.json',
+    publisher: 'QualityControlCenter',
+    subscriber: 'ProductionLineManager',
+    bundleName: 'quality-control-bundle-v3.2',
+    packageName: 'com.automotive.quality.engine',
+    fullCommand: 'quality-check --assembly=engine --standards=TS16949 --report-format=json --output=/reports/engine-quality.json'
   },
   {
     id: '3',
@@ -49,7 +65,15 @@ export const mockDocuments: DocumentationItem[] = [
       vehicleModel: 'All Models',
       component: 'Paint System',
       severity: 'medium'
-    }
+    },
+    fullyQualifiedName: 'com.automotive.environment.paint.BoothControls',
+    enumValues: ['TEMPERATURE_CONTROL', 'HUMIDITY_CONTROL', 'VOC_MONITORING', 'VENTILATION_SYSTEM'],
+    defaultJsonFile: 'paint-booth-env-config.json',
+    publisher: 'EnvironmentalController',
+    subscriber: 'SafetyMonitoringSystem',
+    bundleName: 'environmental-control-bundle-v1.8',
+    packageName: 'com.automotive.environment.paint',
+    fullCommand: 'env-control --booth=paint --monitor=VOC --temp-range=20-25 --humidity-max=65 --config=paint-booth-env-config.json'
   },
   {
     id: '4',
@@ -65,7 +89,15 @@ export const mockDocuments: DocumentationItem[] = [
       vehicleModel: 'Model Z',
       component: 'Transmission Assembly',
       severity: 'medium'
-    }
+    },
+    fullyQualifiedName: 'com.automotive.maintenance.transmission.TroubleshootingGuide',
+    enumValues: ['AUTOMATIC_TRANS', 'MANUAL_TRANS', 'CVT_SYSTEM', 'GEAR_BOX', 'FLUID_CHECK'],
+    defaultJsonFile: 'transmission-diagnostics.json',
+    publisher: 'MaintenanceSystem',
+    subscriber: 'DiagnosticToolkit',
+    bundleName: 'maintenance-diagnostic-bundle-v2.5',
+    packageName: 'com.automotive.maintenance.transmission',
+    fullCommand: 'diagnose --system=transmission --type=automatic --check-fluid --error-codes --config=transmission-diagnostics.json'
   },
   {
     id: '5',
@@ -81,7 +113,15 @@ export const mockDocuments: DocumentationItem[] = [
       vehicleModel: 'All Models',
       component: 'Body Structure',
       severity: 'high'
-    }
+    },
+    fullyQualifiedName: 'com.automotive.production.bodyshop.WeldingStandards',
+    enumValues: ['SPOT_WELDING', 'ARC_WELDING', 'LASER_WELDING', 'RESISTANCE_WELDING'],
+    defaultJsonFile: 'welding-standards-config.json',
+    publisher: 'ProductionController',
+    subscriber: 'QualityInspectionSystem',
+    bundleName: 'production-welding-bundle-v4.1',
+    packageName: 'com.automotive.production.bodyshop',
+    fullCommand: 'weld-control --technique=spot --strength-test=required --quality-check=automated --config=welding-standards-config.json'
   }
 ];
 
